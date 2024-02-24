@@ -1,10 +1,10 @@
 import { createApp } from 'vue';
 import App from './App.vue';
 import PrimeVue from 'primevue/config';
-import Button from 'primevue/button';
-import Carousel from 'primevue/carousel';
-import Tag from 'primevue/tag';
-import InputText from 'primevue/inputtext';
+import PrimeCarousel from 'primevue/carousel';
+import PrimeTag from 'primevue/tag';
+import PrimeMenubar from 'primevue/menubar';
+import PrimeInputText from 'primevue/inputtext';
 import 'primevue/resources/themes/saga-blue/theme.css';
 import 'primevue/resources/primevue.min.css';
 
@@ -14,13 +14,10 @@ import router from './router';
 const app = createApp(App);
 app.use(PrimeVue);
 
-/* eslint-disable vue/no-reserved-component-names */
-/* eslint-disable vue/multi-word-component-names */
-
-app.component('Button', Button);
-app.component('Carousel', Carousel);
-app.component('Tag', Tag);
-app.component('InputText', InputText);
+app.component('PrimeCarousel', PrimeCarousel);
+app.component('PrimeTag', PrimeTag);
+app.component('PrimeInputText', PrimeInputText);
+app.component('PrimeMenubar', PrimeMenubar);
 
 app.use(router);
 

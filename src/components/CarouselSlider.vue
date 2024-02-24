@@ -1,76 +1,82 @@
 <template>
     <div>
-        <Carousel
+        <PrimeCarousel
             :value="props.list"
-            :numVisible="3"
-            :numScroll="3"
-            contentClass="carousel"
-            :responsiveOptions="responsiveOptions"
+            content-class="carousel"
+            :responsive-options="responsiveOptions"
         >
             <template #item="slotProps">
-                <div class="carousel__item">
+                <router-link
+                    :to="slotProps.data.navigateTo"
+                    class="carousel__item"
+                >
                     <div class="carousel__item__image-wrapper">
                         <img
-                            :src="slotProps.data.show.image?.original || defaultImagePlaceHolder"
-                            :alt="slotProps.data.show.name"
+                            :src="slotProps.data.image || defaultImagePlaceHolder"
+                            :alt="slotProps.data.name"
                             class="carousel__item__image-wrapper__image"
                         />
                     </div>
 
                     <div class="carousel__item__wrapper">
-                        <h3 class="carousel__item__title">{{ slotProps.data.show.name || '' }}</h3>
-    
-                        <h4 v-if="slotProps.data.show.rating.average">
-                            <i class="pi pi-star-fill"></i>
-    
-                            {{ slotProps.data.show.rating.average }}
-                        </h4>
+                        <h3
+                            class="carousel__item__title"
+                            v-text="slotProps.data.name"
+                        />
     
                         <div
-                            v-if="slotProps.data.show.genres.length"
+                            v-if="slotProps.data.rating"
+                            class="carousel__item__rating"
+                        >
+                           <StarRating :rate="slotProps.data.rating"/>
+                        </div>
+    
+                        <div
+                            v-if="slotProps.data.genres.length"
                             class="carousel__item__genres"
                         >
-                            <template v-for="genre in slotProps.data.show.genres" :key="genre">
-                                <Tag
-                                    rounded
-                                    severity="info"
-                                    :value="genre"
-                                    class="carousel__item__genres__tag"
-                                />    
-                            </template>
+                            <PrimeTag
+                                v-for="genre in slotProps.data.genres"
+                                :key="genre"
+                                :value="genre"
+                                rounded
+                                severity="info"
+                                class="carousel__item__genres__tag"
+                            />    
                         </div>
                     </div>
-                </div>
+                </router-link>
             </template>
-        </Carousel>
+        </PrimeCarousel>
     </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
 
-import defaultImagePlaceHolder from '@/assets/no-img-portrait-text.png';
-import type { TVShowsListApi } from '@/types/TVShow.type';
+import defaultImagePlaceHolder from '@/assets/no-img-portrait-text.svg';
+import StarRating from '@/components/StarRating.vue';
+import type { TVShowCard } from '@/types/TVShow.type';
 
 const props = defineProps<{
-    list: TVShowsListApi,
+    list: TVShowCard[],
 }>();
 
 const responsiveOptions = ref([
     {
-        breakpoint: '1400px',
-        numVisible: 2,
-        numScroll: 1
+        breakpoint: '2000px',
+        numVisible: 6,
+        numScroll: 3
     },
     {
         breakpoint: '1199px',
-        numVisible: 3,
-        numScroll: 1
+        numVisible: 6,
+        numScroll: 3
     },
     {
         breakpoint: '767px',
-        numVisible: 2,
-        numScroll: 1
+        numVisible: 3,
+        numScroll: 3
     },
     {
         breakpoint: '575px',
@@ -82,6 +88,10 @@ const responsiveOptions = ref([
 </script>
 
 <style lang="scss" scoped>
+.p-carousel :deep(.p-carousel-indicators) .p-carousel-indicator button {
+    border-radius: 0.5rem;
+}
+
 .carousel {
     .p-carousel-item {
         min-height: 30rem;
@@ -91,19 +101,17 @@ const responsiveOptions = ref([
         padding: 1rem;
     }
 
-    .p-carousel-indicator {
-        border-radius: 0.5rem; //TODO: override style of the component when using scoped attr
-    }
 
     &__item {
+        height: 100%;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        height: 100%;
-        border-radius: var(--border-radius) !important;
-        border: 1px solid var(--surface-border) !important;
+        text-decoration: none;
         margin: 0 0.5rem !important;
         text-align: center !important;
+        border-radius: var(--border-radius) !important;
+        border: 1px solid var(--surface-border) !important;
 
         &__image-wrapper {
             margin-bottom: 1rem;
@@ -116,11 +124,21 @@ const responsiveOptions = ref([
         &__title {
             margin: 0 0 1rem 0;
         }
+        
+        &__title:hover {
+            text-decoration: underline;
+        }
 
         &__genres {
             &__tag {
                 margin: 0 0.5rem 0.5rem 0;
             }
+        }
+
+        &__rating {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1rem;
         }
     }
 }

@@ -9,6 +9,11 @@ const router = createRouter({
       component: () => import('@/views/TVShowsList.vue')
     },
     {
+      path: '/show/:id',
+      name: 'tv-show-details',
+      component: () => import('@/views/TVShowsDetails.vue')
+    },
+    {
       path: '/:pathMatch(.*)*',
       name: 'page-not-found',
       component: () => import('@/views/PageNotFound.vue')

@@ -1,33 +1,33 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router';
+
+import logo from '@/assets/logo.svg';
 </script>
 
 <template>
-  <header>
-    <div class="wrapper">
+  <div class="wrapper">
+    <PrimeMenubar>
+      <template #start>
+        <router-link to="/">
+          <img :src="logo" alt="logo" class="wrapper__menu-logo" />
+        </router-link>
+      </template>
+    </PrimeMenubar>
+  
+    <div class="wrapper__content">
+      <RouterView />
     </div>
-  </header>
-
-  <RouterView />
+  </div>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
+<style lang="scss" scoped>
+.wrapper {
+  &__menu-logo {
+    width: 2rem;
   }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
+  
+  &__content {
+    padding: 1rem;
   }
 }
 </style>
