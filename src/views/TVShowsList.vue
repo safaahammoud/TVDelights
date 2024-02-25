@@ -1,28 +1,24 @@
 <script setup lang="ts">  
-  import { computed, onMounted } from 'vue';
+import { onMounted } from 'vue';
+import { storeToRefs } from 'pinia';
 
-  import CarouselSlider from '@/components/Carousel/CarouselSlider.vue';
-  import debounce from '@/utils/debounce.util';
-  import { useTVShowStore } from '@/stores/TVShowStore';
+import CarouselSlider from '@/components/Carousel/CarouselSlider.vue';
+import { useTVShowStore } from '@/stores/TVShowStore';
+import debounce from '@/utils/debounce.util';
 
-  let tvShowStore = useTVShowStore();
+let tvShowStore = useTVShowStore();
+const { fetchAllTVShows } = tvShowStore;
+const { isLoading, tvShowsCards } = storeToRefs(tvShowStore);
 
-  let isLoading = computed(() => {    
-    return tvShowStore.isLoading;
-  });
-  let tvShows = computed(() => {
-    return tvShowStore.tvShows;
-  });
+const searchTvShows = debounce(async (event: Event) => {
+  const search: string = (event.target as HTMLInputElement).value;
+  
+  fetchAllTVShows({ search });
+});
 
-  const searchTvShows = debounce(async (event: Event) => {
-    const search: string = (event.target as HTMLInputElement).value;
-   
-    tvShowStore.fetchAllTVShows({ search });
-  });
-
-  onMounted(() => {
-    tvShowStore.fetchAllTVShows();
-  });
+onMounted(() => {
+  fetchAllTVShows();
+});
 </script>
 
 <template>
@@ -44,8 +40,8 @@
 
     <template v-else>
       <CarouselSlider
-        v-if="tvShows?.length"
-        :list="tvShows"
+        v-if="tvShowsCards?.length"
+        :list="tvShowsCards"
       />
 
       <h3 v-else>No records found</h3>

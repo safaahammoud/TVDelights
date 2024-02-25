@@ -72,7 +72,7 @@ export type TVShow = {
     weight: number;
     network?: Network;
     webChannel?: WebChannel;
-    dvdCountry: any;
+    dvdCountry: null;
     externals: Externals;
     image: Image;
     summary: string;
@@ -85,20 +85,20 @@ export type TVShowListDetails = {
     score: number;
 };
 
-export interface Person {
+export type Person = {
     id: number;
     url: string;
     name: string;
     country: Country;
     birthday?: string;
-    deathday: any;
+    deathday: null;
     gender: string;
     image: Image;
     updated: number;
     _links: { self: Self };
 }
 
-export interface Character {
+export type Character = {
     id: number;
     url: string;
     name: string;
@@ -106,14 +106,14 @@ export interface Character {
     _links: { self: Self };
 }
 
-export interface Cast {
+export type Cast = {
     person: Person;
     character: Character;
     self: boolean;
     voice: boolean;
 }
 
-export interface Embedded {
+export type Embedded = {
   episodes: Episode[];
   cast: Cast[];
 }
@@ -129,6 +129,11 @@ export type TVShowCard = {
 
 export type TVShowsListApi = TVShowListDetails[];
 
-export interface TVShowDetailsApi extends TVShow {
+export type TVShowDetailsApi = TVShow & {
     _embedded: Embedded;
+}
+
+export type FetchAllTVShowsQuery = {
+    page?: number;
+    search?: string;
 }

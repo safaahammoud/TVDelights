@@ -2,27 +2,32 @@ import { ref } from 'vue';
 import axios from 'axios';
 import { defineStore } from 'pinia';
 
-import type { TVShow, TVShowCard, TVShowListDetails } from '@/types/TVShow.type';
+import type {
+    TVShow,
+    TVShowCard,
+    TVShowListDetails,
+    FetchAllTVShowsQuery,
+} from '@/types/TVShow.type';
 
 export const useTVShowStore = defineStore('TVShowStore', () => {
     const isLoading = ref<boolean>(false);
-    const tvShows = ref<TVShowCard[]>([]);
-    const baseUrl = import.meta.env.VITE_API_BACKEND_URL;
+    const tvShowsCards = ref<TVShowCard[]>([]);
+    const backendUrl = import.meta.env.VITE_API_BACKEND_URL;
 
-    async function fetchAllTVShows(query: {page?: number, search?: string} | null = null) {
-        let url = '';
-        let page = 1;
-        let search = '';
+    async function fetchAllTVShows(query: FetchAllTVShowsQuery | null = null) {
+        let url: string = '';
+        let page: number = 1;
+        let search: string = '';
         
-        if(query) {
+        if (query) {
             page = query?.page || 1;
             search = query?.search || '';
         }
 
-        if(search) {
-            url = `${baseUrl}search/shows?q=${search}`;
+        if (search) {
+            url = `${backendUrl}search/shows?q=${search}`;
         } else {
-            url = `${baseUrl}shows?page=${page}`;
+            url = `${backendUrl}shows?page=${page}`;
         }
         
         isLoading.value = true;
@@ -32,7 +37,7 @@ export const useTVShowStore = defineStore('TVShowStore', () => {
                 isLoading.value = false;
             });
 
-        const transformTvShowItem = (tvShowItem: TVShowListDetails | TVShow): TVShowCard => {
+        const formatTvShowItem = (tvShowItem: TVShowListDetails | TVShow): TVShowCard => {
             const id = ('show' in tvShowItem) ? tvShowItem.show.id : tvShowItem.id;
             const name = ('show' in tvShowItem) ? tvShowItem.show.name : tvShowItem.name;
             const image = ('show' in tvShowItem) ? tvShowItem.show.image?.original : tvShowItem.image.original;
@@ -43,19 +48,19 @@ export const useTVShowStore = defineStore('TVShowStore', () => {
             return {
                 id,
                 name,
-                genres: genres.slice(0, 3),
-                image,
-                rating: rating || 0,
                 navigateTo,
+                image: image || '',
+                rating: rating || 0,
+                genres: genres.slice(0, 3),
             };
         };
 
-        tvShows.value = data.slice(0, 20).map(transformTvShowItem);
+        tvShowsCards.value = data.slice(0, 20).map(formatTvShowItem);
     }
 
     return {
-        tvShows,
         isLoading,
+        tvShowsCards,
         fetchAllTVShows,
     };
 });

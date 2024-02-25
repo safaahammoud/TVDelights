@@ -20,7 +20,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref } from 'vue';
+import type { CarouselResponsiveOptions } from 'primevue/carousel';
 
 import CarouselSliderItem from '@/components/Carousel/CarouselSliderItem.vue';
 import type { TVShowCard } from '@/types/TVShow.type';
@@ -29,7 +30,7 @@ const props = defineProps<{
     list: TVShowCard[],
 }>();
 
-const responsiveOptions = ref([
+const responsiveOptions = ref<CarouselResponsiveOptions[]>([
     {
         breakpoint: '2000px',
         numVisible: 6,

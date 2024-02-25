@@ -39,7 +39,6 @@
 </template>
 
 <script setup lang="ts">
-
 import defaultImagePlaceHolder from '@/assets/no-img-portrait-text.svg';
 import StarRating from '@/components/StarRating.vue';
 
@@ -52,7 +51,6 @@ const props = defineProps<{
 </script>
 
 <style lang="scss" scoped>
-
 .carousel {
     &__item__wrapper {
         padding: 1rem;

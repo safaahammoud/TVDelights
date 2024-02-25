@@ -11,5 +11,5 @@
 </template>
 
 <script setup lang="ts">
-    const contactUsLink = 'https://www.abnamro.nl/en/personal/contact/index.html';
+const contactUsLink: string = 'https://www.abnamro.nl/en/personal/contact/index.html';
 </script>

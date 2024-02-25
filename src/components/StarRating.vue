@@ -12,7 +12,6 @@
 </template>
 
 <script setup lang="ts">
-
 const props = defineProps<{
     rate: number;
     styleClass?: string;

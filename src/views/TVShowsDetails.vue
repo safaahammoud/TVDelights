@@ -1,68 +1,67 @@
 <script setup lang="ts">
-  import axios from 'axios';
+import axios from 'axios';
+import { onMounted, ref, computed } from 'vue';
+import { useRoute } from 'vue-router';
 
-  import { onMounted, ref, computed } from 'vue';
-  import { useRoute } from 'vue-router';
+import defaultImagePlaceHolder from '@/assets/no-img-portrait-text.svg';
+import StarRating from '@/components/StarRating.vue';
+import type { TVShowDetailsApi } from '@/types/TVShow.type';
 
-  import defaultImagePlaceHolder from '@/assets/no-img-portrait-text.svg';
-  import StarRating from '@/components/StarRating.vue';
-  import type { TVShowDetailsApi } from '@/types/TVShow.type';
+let url = import.meta.env.VITE_API_BACKEND_URL;
+let tvShowDetails = ref<TVShowDetailsApi>();
+let isSummaryExpanded = ref<Boolean>(false);
+let isLoading = ref<Boolean>(false);
+let errorMessage = ref<string>('');
+let defaultErrorMessage = ref<string>('Error occurred');
+const route = useRoute();
+const isMobile = ref(window.matchMedia('(max-width: 768px)').matches);
 
-  let url = import.meta.env.VITE_API_BACKEND_URL;
-  let tvShowDetails = ref<TVShowDetailsApi>();
-  let isSummaryExpanded = ref<Boolean>(false);
-  let isLoading = ref<Boolean>(false);
-  let errorMessage = ref<string>('');
-  let defaultErrorMessage = ref<string>('Error occurred');
-  const route = useRoute();
-  const isMobile = ref(window.matchMedia('(max-width: 768px)').matches);
+const tvShowDate = computed(() => (
+  new Date(tvShowDetails.value?.premiered || '')?.getFullYear() || ''
+));
 
-  const tvShowDate = computed(() => (
-    new Date(tvShowDetails.value?.premiered || '')?.getFullYear() || ''
-  ));
-
-  const formattedRuntime = computed(() => {
-    if(tvShowDetails.value?.averageRuntime) {
-      const hours = Math.floor(tvShowDetails.value.averageRuntime / 60);
-      const minutes = tvShowDetails.value.averageRuntime % 60;
-      
-      return `${hours}hr ${minutes}mins`;
-    }
+const formattedRuntime = computed(() => {
+  if(tvShowDetails.value?.averageRuntime) {
+    const hours = Math.floor(tvShowDetails.value.averageRuntime / 60);
+    const minutes = tvShowDetails.value.averageRuntime % 60;
     
-    return '';
-  });
-
-  const updateIsMobile = () => {
-    isMobile.value = window.matchMedia('(max-width: 768px)').matches;
-  };
-
-  const getTvShowDetails = (id: string = '') => {
-    return axios.get<TVShowDetailsApi>(`${url}shows/${id}?embed[]=episodes&embed[]=cast`);
-  };
-
-  const setError = (error: string = '') => {
-    errorMessage.value = error;
-  };
-
-  const setTVShowDetails = async () => {
-    setError();
-    isLoading.value = true;
-    
-    try {
-      const { data } = await getTvShowDetails(route.params.id as string);
-
-      tvShowDetails.value = data;
-    } catch(error) {
-      setError((error as Error)?.message || defaultErrorMessage.value);
-    } finally {
-      isLoading.value = false;
-    }
-  };
+    return `${hours}hr ${minutes}mins`;
+  }
   
-  onMounted(async () => {
-    window.addEventListener('resize', updateIsMobile);
-    setTVShowDetails();
-  });
+  return '';
+});
+
+const updateIsMobile = () => {
+  isMobile.value = window.matchMedia('(max-width: 768px)').matches;
+};
+
+const getTvShowDetails = (id: string = '') => {
+  return axios.get<TVShowDetailsApi>(`${url}shows/${id}?embed[]=episodes&embed[]=cast`);
+};
+
+const setError = (error: string = '') => {
+  errorMessage.value = error;
+};
+
+const setTVShowDetails = async () => {
+  setError();
+  isLoading.value = true;
+  
+  try {
+    const { data } = await getTvShowDetails(route.params.id as string);
+
+    tvShowDetails.value = data;
+  } catch(error) {
+    setError((error as Error)?.message || defaultErrorMessage.value);
+  } finally {
+    isLoading.value = false;
+  }
+};
+
+onMounted(async () => {
+  window.addEventListener('resize', updateIsMobile);
+  setTVShowDetails();
+});
 </script>
 
 <template>
