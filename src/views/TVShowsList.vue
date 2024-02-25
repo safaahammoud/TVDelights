@@ -1,7 +1,7 @@
 <script setup lang="ts">  
   import { computed, onMounted } from 'vue';
 
-  import CarouselSlider from '@/components/CarouselSlider.vue';
+  import CarouselSlider from '@/components/Carousel/CarouselSlider.vue';
   import debounce from '@/utils/debounce.util';
   import { useTVShowStore } from '@/stores/TVShowStore';
 
