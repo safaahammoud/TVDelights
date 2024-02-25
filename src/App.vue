@@ -6,6 +6,8 @@ import logo from '@/assets/logo.svg';
 
 <template>
   <div class="wrapper">
+    <PrimeToast />
+
     <PrimeMenubar>
       <template #start>
         <router-link to="/">

@@ -8,7 +8,7 @@
   import StarRating from '@/components/StarRating.vue';
   import type { TVShowDetailsApi } from '@/types/TVShow.type';
 
-  let url = import.meta.env.VITE_API_BASE_URL;
+  let url = import.meta.env.VITE_API_BACKEND_URL;
   let tvShowDetails = ref<TVShowDetailsApi>();
   let isSummaryExpanded = ref<Boolean>(false);
   let isLoading = ref<Boolean>(false);
