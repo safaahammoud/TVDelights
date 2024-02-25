@@ -5,6 +5,7 @@ import { defineStore } from 'pinia';
 import type {
     TVShow,
     TVShowCard,
+    TVShowDetailsApi,
     TVShowListDetails,
     FetchAllTVShowsQuery,
 } from '@/types/TVShow.type';
@@ -12,9 +13,10 @@ import type {
 export const useTVShowStore = defineStore('TVShowStore', () => {
     const isLoading = ref<boolean>(false);
     const tvShowsCards = ref<TVShowCard[]>([]);
+    const tvShowDetail = ref<TVShowDetailsApi>();
     const backendUrl = import.meta.env.VITE_API_BACKEND_URL;
 
-    async function fetchAllTVShows(query: FetchAllTVShowsQuery | null = null) {
+    async function fetchAllTVShows(query: FetchAllTVShowsQuery | null = null): Promise<void> {
         let url: string = '';
         let page: number = 1;
         let search: string = '';
@@ -58,9 +60,20 @@ export const useTVShowStore = defineStore('TVShowStore', () => {
         tvShowsCards.value = data.slice(0, 20).map(formatTvShowItem);
     }
 
+    async function fetchDetailTVShow(id: number): Promise<void> {
+        isLoading.value = true;
+
+        const { data } = await axios.get<TVShowDetailsApi>(`${backendUrl}shows/${id}?embed[]=episodes&embed[]=cast`)
+            .finally(() => isLoading.value = false);
+        
+        tvShowDetail.value = data;
+    }
+
     return {
         isLoading,
         tvShowsCards,
+        tvShowDetail,
         fetchAllTVShows,
+        fetchDetailTVShow,
     };
 });

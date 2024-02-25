@@ -1,29 +1,27 @@
 <script setup lang="ts">
-import axios from 'axios';
-import { onMounted, ref, computed } from 'vue';
+import { storeToRefs } from 'pinia';
+import { computed, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
 import defaultImagePlaceHolder from '@/assets/no-img-portrait-text.svg';
 import StarRating from '@/components/StarRating.vue';
-import type { TVShowDetailsApi } from '@/types/TVShow.type';
+import { useTVShowStore } from '@/stores/TVShowStore';
 
-let url = import.meta.env.VITE_API_BACKEND_URL;
-let tvShowDetails = ref<TVShowDetailsApi>();
-let isSummaryExpanded = ref<Boolean>(false);
-let isLoading = ref<Boolean>(false);
-let errorMessage = ref<string>('');
-let defaultErrorMessage = ref<string>('Error occurred');
 const route = useRoute();
+let isSummaryExpanded = ref<Boolean>(false);
+let tvShowStore = useTVShowStore();
+const { fetchDetailTVShow } = tvShowStore;
+const { isLoading, tvShowDetail } = storeToRefs(tvShowStore);
 const isMobile = ref(window.matchMedia('(max-width: 768px)').matches);
 
-const tvShowDate = computed(() => (
-  new Date(tvShowDetails.value?.premiered || '')?.getFullYear() || ''
+const tvShowDate = computed<string>(() => (
+  new Date(tvShowDetail.value?.premiered || '')?.getFullYear().toString() || ''
 ));
 
 const formattedRuntime = computed(() => {
-  if(tvShowDetails.value?.averageRuntime) {
-    const hours = Math.floor(tvShowDetails.value.averageRuntime / 60);
-    const minutes = tvShowDetails.value.averageRuntime % 60;
+  if(tvShowDetail.value?.averageRuntime) {
+    const hours = Math.floor(tvShowDetail.value.averageRuntime / 60);
+    const minutes = tvShowDetail.value.averageRuntime % 60;
     
     return `${hours}hr ${minutes}mins`;
   }
@@ -35,118 +33,90 @@ const updateIsMobile = () => {
   isMobile.value = window.matchMedia('(max-width: 768px)').matches;
 };
 
-const getTvShowDetails = (id: string = '') => {
-  return axios.get<TVShowDetailsApi>(`${url}shows/${id}?embed[]=episodes&embed[]=cast`);
-};
-
-const setError = (error: string = '') => {
-  errorMessage.value = error;
-};
-
-const setTVShowDetails = async () => {
-  setError();
-  isLoading.value = true;
-  
-  try {
-    const { data } = await getTvShowDetails(route.params.id as string);
-
-    tvShowDetails.value = data;
-  } catch(error) {
-    setError((error as Error)?.message || defaultErrorMessage.value);
-  } finally {
-    isLoading.value = false;
-  }
-};
-
 onMounted(async () => {
   window.addEventListener('resize', updateIsMobile);
-  setTVShowDetails();
+  
+  fetchDetailTVShow(+route.params.id);
 });
 </script>
 
 <template>
   <div class="wrapper">
-    <p v-if="errorMessage">
-      {{ errorMessage }}
-    </p>
+    <div v-if="isLoading">
+      <i class="wrapper__loader pi pi-spin pi-spinner"></i>
+    </div>
 
-    <template v-else>
-      <div v-if="isLoading">
-        <i class="wrapper__loader pi pi-spin pi-spinner"></i>
-      </div>
+    <div
+      v-else
+      class="tv-show-details"
+    >
+      <div class="tv-show-details__header">
+        <div>
+          <h1 class="tv-show-details__header__title">
+            {{ tvShowDetail?.name || '' }}
+          </h1>
   
-      <div
-        v-else
-        class="tv-show-details"
-      >
-        <div class="tv-show-details__header">
-          <div>
-            <h1 class="tv-show-details__header__title">
-              {{ tvShowDetails?.name || '' }}
-            </h1>
-    
-            <ul class="tv-show-details__info-list">
-              <li>
-                {{ tvShowDate }}
-              </li>
-              
-              <li>
-                {{ formattedRuntime }}
-              </li>
-            </ul>
-          </div>
-
-          <div
-            v-if="tvShowDetails?.rating.average"
-            class="tv-show-details__rate-wrapper"
-          >
-            <span>
-              RATING
-            </span>
-
-            <StarRating
-              :rate="tvShowDetails.rating.average"
-              style-class="tv-show-details__rate-wrapper__rate"
-            />
-          </div>
+          <ul class="tv-show-details__info-list">
+            <li>
+              {{ tvShowDate }}
+            </li>
+            
+            <li>
+              {{ formattedRuntime }}
+            </li>
+          </ul>
         </div>
-        
-        <div class="tv-show-details__poster">
-          <img
-              :src="tvShowDetails?.image?.original || defaultImagePlaceHolder"
-              :alt="tvShowDetails?.name"
-              class="tv-show-details__poster-left-image"
+
+        <div
+          v-if="tvShowDetail?.rating.average"
+          class="tv-show-details__rate-wrapper"
+        >
+          <span>
+            RATING
+          </span>
+
+          <StarRating
+            :rate="tvShowDetail.rating.average"
+            style-class="tv-show-details__rate-wrapper__rate"
           />
         </div>
-
-        <div v-if="tvShowDetails?.genres.length">
-          <PrimeTag
-              v-for="genre in tvShowDetails?.genres"
-              :key="genre"
-              rounded
-              severity="info"
-              :value="genre"
-              class="tv-show-details__genres"
-          />    
-        </div>
-        
-        <!-- only use v-html you trust the content is safe and you know its not user-provided content -->
-        <!-- eslint-disable vue/no-v-html -->
-        <p
-          :class="{ 'line-clamp': isMobile && !isSummaryExpanded }"
-          v-html="tvShowDetails?.summary"
-        />
-
-        <span
-          v-if="!isSummaryExpanded"
-          class="tv-show-details__read-all-btn"
-          @click="isSummaryExpanded=true"
-        >
-          Read all
-        </span>
-        <!-- eslint-enable vue/no-v-html -->
       </div>
-    </template>
+      
+      <div class="tv-show-details__poster">
+        <img
+            :src="tvShowDetail?.image?.original || defaultImagePlaceHolder"
+            :alt="tvShowDetail?.name"
+            class="tv-show-details__poster-left-image"
+        />
+      </div>
+
+      <div v-if="tvShowDetail?.genres.length">
+        <PrimeTag
+            v-for="genre in tvShowDetail?.genres"
+            :key="genre"
+            rounded
+            severity="info"
+            :value="genre"
+            class="tv-show-details__genres"
+        />    
+      </div>
+      
+      <!-- only use v-html you trust the content is safe and you know its not user-provided content -->
+      <!-- eslint-disable vue/no-v-html -->
+      <p
+        :class="{ 'line-clamp': isMobile && !isSummaryExpanded }"
+        v-html="tvShowDetail?.summary"
+      />
+      <!-- eslint-enable vue/no-v-html -->
+
+      <span
+        v-if="!isSummaryExpanded"
+        class="tv-show-details__read-all-btn"
+        @click="isSummaryExpanded=true"
+      >
+        Read all
+      </span>
+    </div>
   </div>
 </template>
 
