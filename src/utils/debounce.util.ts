@@ -1,4 +1,4 @@
-type CallbackArgs<T extends (...args: any[]) => any> = Parameters<T>;
+type CallbackArgs<T extends (...args: T[]) => T> = Parameters<T>;
 
 export default <T extends (...args: any[]) => any>(
     cb: T,

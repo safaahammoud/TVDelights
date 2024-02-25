@@ -13,6 +13,7 @@ module.exports = {
   ],
   rules: {
     'semi': ['error', 'always'],
+    '@typescript-eslint/no-explicit-any': 'error',
   },
   parserOptions: {
     ecmaVersion: 'latest'
