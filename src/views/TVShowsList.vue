@@ -42,13 +42,12 @@ onMounted(() => {
       />
     </template>
 
-    <h2 v-else>No records found</h2>
+    <h3 v-else>No records found</h3>
   </div>
 </template>
 
 <style lang="scss" scoped>
 .wrapper {
-  padding: 0 3rem;
   .search-wrapper {
     display: flex;
     flex-direction: column;

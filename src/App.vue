@@ -14,7 +14,7 @@ const { isLoading } = storeToRefs(tvShowStore);
   <div class="wrapper">
     <PrimeToast />
 
-    <PrimeMenubar>
+    <PrimeMenubar class="wrapper__menubar">
       <template #start>
         <router-link to="/">
           <img :src="logo" alt="logo" class="wrapper__menu-logo" />
@@ -22,14 +22,14 @@ const { isLoading } = storeToRefs(tvShowStore);
       </template>
     </PrimeMenubar>
     
-    <div class="wrapper__loader">
+    <div class="wrapper__loader-wrapper">
       <span id="label_status" />
       
       <PrimeProgressBar
         v-if="isLoading"
         mode="indeterminate"
         aria-labelledby="label_status"
-        class="wrapper__loader"
+        class="wrapper__loader-wrapper__loader"
       />
     </div>
 
@@ -40,17 +40,32 @@ const { isLoading } = storeToRefs(tvShowStore);
 </template>
 
 <style lang="scss" scoped>
-.wrapper {
+.wrapper {  
   &__menu-logo {
     width: 2rem;
   }
   
   &__content {
     padding: 1rem;
+    margin-top: 4rem;
   }
 
-  &__loader {
-    height: 5px;
+  &__loader-wrapper {
+    right: 0;
+    left: 0;
+    top: 47px;
+    position: absolute;
+    
+    &__loader {
+      height: 5px;
+    }
+  }
+
+  &__menubar {
+    width: 100%;
+    z-index: 9999;
+    position: fixed;
+    top: 0;
   }
 }
 </style>
