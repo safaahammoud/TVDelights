@@ -18,7 +18,7 @@
                 v-if="props.rating"
                 class="carousel__item__rating"
             >
-                <StarRating :rate="props.rating"/>
+                <StarRating :rating="props.rating"/>
             </div>
 
             <div

@@ -76,7 +76,7 @@ onMounted(async () => {
           </span>
 
           <StarRating
-            :rate="tvShowDetail.rating.average"
+            :rating="tvShowDetail.rating.average"
             style-class="tv-show-details__rate-wrapper__rate"
           />
         </div>
