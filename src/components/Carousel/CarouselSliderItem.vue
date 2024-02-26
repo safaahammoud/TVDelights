@@ -8,7 +8,7 @@
             />
         </div>
 
-        <div class="carousel__item__wrapper">
+        <div class="carousel__item__content-wrapper">
             <h3
                 class="carousel__item__title"
                 v-text="props.name"
@@ -52,7 +52,7 @@ const props = defineProps<{
 
 <style lang="scss" scoped>
 .carousel {
-    &__item__wrapper {
+    &__item__content-wrapper {
         padding: 1rem;
     }
 
@@ -61,7 +61,6 @@ const props = defineProps<{
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        text-decoration: none;
         margin: 0 0.5rem !important;
         text-align: center !important;
         border-radius: var(--border-radius) !important;

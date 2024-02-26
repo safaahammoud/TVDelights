@@ -63,6 +63,11 @@ const responsiveOptions = ref<CarouselResponsiveOptions[]>([
 .carousel {
     .p-carousel-item {
         min-height: 30rem;
+  
+        a {
+            text-decoration: none;
+        }
     }
+
 }
 </style>
