@@ -5,7 +5,7 @@
             ...(styleClass ? { [styleClass]: true } : {})
         }"
     >
-        <i class="pi pi-star-fill"></i>    
+        <i class="rating-wrapper__star pi pi-star-fill"></i>    
         
         <h4 class="rating-wrapper__rating" v-text="props.rating" />
     </div>
@@ -26,6 +26,10 @@ const props = defineProps<{
     &__rating {
         margin: 0;
         padding-left: .5rem;
+    }
+
+    &__star {
+        color: var(--yellow-500);
     }
 }
 </style>

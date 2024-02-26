@@ -174,6 +174,7 @@ onMounted(async () => {
 
     &__genres {
       margin: .5rem .5rem 0 0;
+      background-color: var(--blue-800);
     }
 
     &__read-all-btn {

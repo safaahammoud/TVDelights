@@ -85,6 +85,7 @@ const props = defineProps<{
         &__genres {
             &__tag {
                 margin: 0 0.5rem 0.5rem 0;
+                background-color: var(--blue-800);
             }
         }
 
