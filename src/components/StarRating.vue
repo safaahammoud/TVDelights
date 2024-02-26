@@ -2,7 +2,7 @@
     <div
         :class="{
             'rating-wrapper': true,
-            ...(styleClass ? { [styleClass]: styleClass } : {})
+            ...(styleClass ? { [styleClass]: true } : {})
         }"
     >
         <i class="pi pi-star-fill"></i>    

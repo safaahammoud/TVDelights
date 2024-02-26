@@ -3,7 +3,7 @@
         <div class="carousel__item__image-wrapper">
             <img
                 :src="props.image || defaultImagePlaceHolder"
-                :alt="props.name"
+                alt="tv show image"
                 class="carousel__item__image-wrapper__image"
             />
         </div>

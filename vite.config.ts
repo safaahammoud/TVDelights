@@ -11,6 +11,12 @@ export default defineConfig({
   plugins: [
     vue(),
   ],
+  test: {
+    css: false,
+		globals: true,
+		environment: 'jsdom',
+    clearMocks: true,
+  },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))

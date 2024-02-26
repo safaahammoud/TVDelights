@@ -1,0 +1,1 @@
+export const CONTACT_US_LINK = 'https://www.abnamro.nl/en/personal/contact/index.html';

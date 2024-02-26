@@ -11,5 +11,7 @@
 </template>
 
 <script setup lang="ts">
-const contactUsLink: string = 'https://www.abnamro.nl/en/personal/contact/index.html';
+import { CONTACT_US_LINK } from '@/consts/links.const';
+
+const contactUsLink: string = CONTACT_US_LINK;
 </script>

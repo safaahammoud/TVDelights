@@ -1,42 +1,39 @@
 <template>
-    <div>
-        <PrimeDeferredContent
-            role="region"
-            aria-live="polite"
-            aria-label="Content loaded after scroll"
-            right
-        >
-            <PrimeCarousel
+    <PrimeDeferredContent
+        role="region"
+        aria-live="polite"
+        aria-label="Content loaded after scroll"
+    >
+        <PrimeCarousel
             :value="props.list"
             content-class="carousel"
-            :responsive-options="responsiveOptions"
+            :responsive-options="carouselResponsiveOptions"
         >
             <template #item="{ data }">
                 <router-link :to="data.navigateTo">
-                        <CarouselSliderItem
-                            :name="data.name"
-                            :image="data.image"
-                            :genres="data.genres"
-                            :rating="data.rating"
-                        />
-                    </router-link>
-                </template>
-            </PrimeCarousel>
+                    <CarouselSliderItem
+                        :name="data.name"
+                        :image="data.image"
+                        :genres="data.genres"
+                        :rating="data.rating"
+                    />
+                </router-link>
+            </template>
+        </PrimeCarousel>
 
-            <PrimePaginator
-                :rows="10"
-                :total-records="props.list.length"
-                @page="emit('changePage', $event.page + 1)"
-            >
-            </PrimePaginator>
-        </PrimeDeferredContent>
-    </div>
+        <PrimePaginator
+            :rows="10"
+            :total-records="props.list.length"
+            @page="emit('changePage', $event.page + 1)"
+        />
+    </PrimeDeferredContent>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
 import type { CarouselResponsiveOptions } from 'primevue/carousel';
 
+import { CAROUSEL_RESPONSIVE_OPTIONS } from '@/consts/CarouselResponsiveOptions.const';
 import CarouselSliderItem from '@/components/Carousel/CarouselSliderItem.vue';
 import type { TVShowCard } from '@/types/TVShow.type';
 
@@ -48,28 +45,7 @@ const emit = defineEmits<{
     changePage: [page: number]
 }>();
 
-const responsiveOptions = ref<CarouselResponsiveOptions[]>([
-    {
-        breakpoint: '2000px',
-        numVisible: 6,
-        numScroll: 6
-    },
-    {
-        breakpoint: '1199px',
-        numVisible: 6,
-        numScroll: 6
-    },
-    {
-        breakpoint: '767px',
-        numVisible: 3,
-        numScroll: 3
-    },
-    {
-        breakpoint: '575px',
-        numVisible: 1,
-        numScroll: 1
-    }
-]);
+const carouselResponsiveOptions = ref<CarouselResponsiveOptions[]>(CAROUSEL_RESPONSIVE_OPTIONS);
 </script>
 
 <style lang="scss" scoped>
