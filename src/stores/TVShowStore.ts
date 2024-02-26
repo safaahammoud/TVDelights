@@ -42,7 +42,7 @@ export const useTVShowStore = defineStore('TVShowStore', () => {
         const formatTvShowItem = (tvShowItem: TVShowListDetails | TVShow): TVShowCard => {
             const id = ('show' in tvShowItem) ? tvShowItem.show.id : tvShowItem.id;
             const name = ('show' in tvShowItem) ? tvShowItem.show.name : tvShowItem.name;
-            const image = ('show' in tvShowItem) ? tvShowItem.show.image?.original : tvShowItem.image.original;
+            const image = ('show' in tvShowItem) ? tvShowItem.show.image?.original : tvShowItem.image?.original;
             const genres = ('show' in tvShowItem) ? tvShowItem.show.genres : tvShowItem.genres;
             const rating = ('show' in tvShowItem) ? tvShowItem.show.rating?.average : tvShowItem.rating?.average;
             const navigateTo = { name: 'tv-show-details', params: { id } };
@@ -57,7 +57,7 @@ export const useTVShowStore = defineStore('TVShowStore', () => {
             };
         };
 
-        tvShowsCards.value = data.slice(0, 20).map(formatTvShowItem);
+        tvShowsCards.value = data.map(formatTvShowItem);
     }
 
     async function fetchDetailTVShow(id: number): Promise<void> {

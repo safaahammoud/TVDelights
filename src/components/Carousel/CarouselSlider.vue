@@ -1,21 +1,35 @@
 <template>
     <div>
-        <PrimeCarousel
+        <PrimeDeferredContent
+            role="region"
+            aria-live="polite"
+            aria-label="Content loaded after scroll"
+            right
+        >
+            <PrimeCarousel
             :value="props.list"
             content-class="carousel"
             :responsive-options="responsiveOptions"
         >
             <template #item="{ data }">
                 <router-link :to="data.navigateTo">
-                  <CarouselSliderItem
-                      :name="data.name"
-                      :image="data.image"
-                      :genres="data.genres"
-                      :rating="data.rating"
-                  />
-                </router-link>
-            </template>
-        </PrimeCarousel>
+                        <CarouselSliderItem
+                            :name="data.name"
+                            :image="data.image"
+                            :genres="data.genres"
+                            :rating="data.rating"
+                        />
+                    </router-link>
+                </template>
+            </PrimeCarousel>
+
+            <PrimePaginator
+                :rows="10"
+                :total-records="props.list.length"
+                @page="emit('changePage', $event.page + 1)"
+            >
+            </PrimePaginator>
+        </PrimeDeferredContent>
     </div>
 </template>
 
@@ -30,16 +44,20 @@ const props = defineProps<{
     list: TVShowCard[],
 }>();
 
+const emit = defineEmits<{
+    changePage: [page: number]
+}>();
+
 const responsiveOptions = ref<CarouselResponsiveOptions[]>([
     {
         breakpoint: '2000px',
         numVisible: 6,
-        numScroll: 3
+        numScroll: 6
     },
     {
         breakpoint: '1199px',
         numVisible: 6,
-        numScroll: 3
+        numScroll: 6
     },
     {
         breakpoint: '767px',
@@ -52,7 +70,6 @@ const responsiveOptions = ref<CarouselResponsiveOptions[]>([
         numScroll: 1
     }
 ]);
-
 </script>
 
 <style lang="scss" scoped>

@@ -8,7 +8,7 @@ import debounce from '@/utils/debounce.util';
 
 let tvShowStore = useTVShowStore();
 const { fetchAllTVShows } = tvShowStore;
-const { isLoading, tvShowsCards } = storeToRefs(tvShowStore);
+const { tvShowsCards } = storeToRefs(tvShowStore);
 
 const searchTvShows = debounce(async (event: Event) => {
   const search: string = (event.target as HTMLInputElement).value;
@@ -34,18 +34,15 @@ onMounted(() => {
       />
     </div>
 
-    <div v-if="isLoading">
-      <i class="wrapper__loader pi pi-spin pi-spinner"></i>
-    </div>
-
-    <template v-else>
+    <template v-if="tvShowsCards?.length">
       <CarouselSlider
         v-if="tvShowsCards?.length"
         :list="tvShowsCards"
+        @change-page="fetchAllTVShows({ page: $event });"
       />
-
-      <h3 v-else>No records found</h3>
     </template>
+
+    <h2 v-else>No records found</h2>
   </div>
 </template>
 
@@ -60,10 +57,6 @@ onMounted(() => {
     .searchInput {
       margin-top: 1rem;
     }
-  }
-
-  &__loader {
-    font-size: 2rem;
   }
 }
 </style>

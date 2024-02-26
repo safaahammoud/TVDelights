@@ -1,7 +1,13 @@
 <script setup lang="ts">
+import { storeToRefs } from 'pinia';
 import { RouterView } from 'vue-router';
 
 import logo from '@/assets/logo.svg';
+import { useTVShowStore } from '@/stores/TVShowStore';
+
+let tvShowStore = useTVShowStore();
+const { isLoading } = storeToRefs(tvShowStore);
+
 </script>
 
 <template>
@@ -15,7 +21,18 @@ import logo from '@/assets/logo.svg';
         </router-link>
       </template>
     </PrimeMenubar>
-  
+    
+    <div class="wrapper__loader">
+      <span id="label_status" />
+      
+      <PrimeProgressBar
+        v-if="isLoading"
+        mode="indeterminate"
+        aria-labelledby="label_status"
+        class="wrapper__loader"
+      />
+    </div>
+
     <div class="wrapper__content">
       <RouterView />
     </div>
@@ -30,6 +47,10 @@ import logo from '@/assets/logo.svg';
   
   &__content {
     padding: 1rem;
+  }
+
+  &__loader {
+    height: 5px;
   }
 }
 </style>

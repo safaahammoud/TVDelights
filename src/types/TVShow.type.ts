@@ -37,7 +37,7 @@ export type Externals = {
 
 export type Image = {
     medium: string;
-    original: string;
+    original?: string;
 };
 
 export type Self = {
