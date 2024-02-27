@@ -13,5 +13,10 @@
   ],
   "compilerOptions": {
     "noImplicitAny": true,
+    "target": "esnext",
+    "jsx": "preserve",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "types": ["vitest/globals"],
   }
 }

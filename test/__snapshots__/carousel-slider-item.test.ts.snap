@@ -1,0 +1,50 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`CarouselSliderItem > mount component 1`] = `
+"<div data-v-338fd4e5="" class="carousel__item">
+  <div data-v-338fd4e5="" class="carousel__item__image-wrapper"><img data-v-338fd4e5="" src="/src/assets/no-img-portrait-text.svg" alt="tv show image" class="carousel__item__image-wrapper__image"></div>
+  <div data-v-338fd4e5="" class="carousel__item__content-wrapper">
+    <h3 data-v-338fd4e5="" class="carousel__item__title">test</h3>
+    <div data-v-338fd4e5="" class="carousel__item__rating">
+      <div data-v-11c024fb="" data-v-338fd4e5="" class="rating-wrapper"><i data-v-11c024fb="" class="rating-wrapper__star pi pi-star-fill"></i>
+        <h4 data-v-11c024fb="" class="rating-wrapper__rating">6</h4>
+      </div>
+    </div>
+    <div data-v-338fd4e5="" class="carousel__item__genres">
+      <primetag data-v-338fd4e5="" rounded="" severity="info" class="carousel__item__genres__tag" value="comedy"></primetag>
+    </div>
+  </div>
+</div>"
+`;
+
+exports[`CarouselSliderItem > mount component and renders properly 1`] = `
+"<div data-v-338fd4e5="" class="carousel__item">
+  <div data-v-338fd4e5="" class="carousel__item__image-wrapper"><img data-v-338fd4e5="" src="[object Object]" alt="tv show image" class="carousel__item__image-wrapper__image"></div>
+  <div data-v-338fd4e5="" class="carousel__item__content-wrapper">
+    <h3 data-v-338fd4e5="" class="carousel__item__title">test</h3>
+    <div data-v-338fd4e5="" class="carousel__item__rating">
+      <div data-v-11c024fb="" data-v-338fd4e5="" class="rating-wrapper"><i data-v-11c024fb="" class="rating-wrapper__star pi pi-star-fill"></i>
+        <h4 data-v-11c024fb="" class="rating-wrapper__rating">6</h4>
+      </div>
+    </div>
+    <div data-v-338fd4e5="" class="carousel__item__genres">
+      <primetag data-v-338fd4e5="" rounded="" severity="info" class="carousel__item__genres__tag" value="comedy"></primetag>
+    </div>
+  </div>
+</div>"
+`;
+
+exports[`mount component 1`] = `
+"<div data-v-338fd4e5="" class="carousel__item">
+  <div data-v-338fd4e5="" class="carousel__item__image-wrapper"><img data-v-338fd4e5="" src="/src/assets/no-img-portrait-text.svg" alt="tv show image" class="carousel__item__image-wrapper__image"></div>
+  <div data-v-338fd4e5="" class="carousel__item__content-wrapper">
+    <h3 data-v-338fd4e5="" class="carousel__item__title"></h3>
+    <div data-v-338fd4e5="" class="carousel__item__rating">
+      <div data-v-11c024fb="" data-v-338fd4e5="" class="rating-wrapper"><i data-v-11c024fb="" class="rating-wrapper__star pi pi-star-fill"></i>
+        <h4 data-v-11c024fb="" class="rating-wrapper__rating">8</h4>
+      </div>
+    </div>
+    <!--v-if-->
+  </div>
+</div>"
+`;

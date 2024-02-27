@@ -1,8 +1,8 @@
 import { describe, expect, test } from 'vitest';
 import { mount } from '@vue/test-utils';
 
-import { CONTACT_US_LINK } from '@/consts/links.const';
-import PageNotFound from '@/views/PageNotFound.vue';
+import { CONTACT_US_LINK } from '../src/consts/links.const';
+import PageNotFound from '../src/views/PageNotFound.vue';
 
 describe('PageNotFound', () => {
   test('renders properly', () => {

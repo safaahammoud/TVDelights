@@ -1,0 +1,8 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`CarouselSlider > mount component 1`] = `
+"<primedeferredcontent data-v-4b7dc123="" role="region" aria-live="polite" aria-label="Content loaded after scroll">
+  <primecarousel data-v-4b7dc123="" content-class="carousel" responsive-options="[object Object],[object Object],[object Object],[object Object]" value="[object Object]"></primecarousel>
+  <primepaginator data-v-4b7dc123="" rows="10" total-records="1"></primepaginator>
+</primedeferredcontent>"
+`;

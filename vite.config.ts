@@ -12,7 +12,7 @@ export default defineConfig({
     vue(),
   ],
   test: {
-    css: false,
+    css: true,
 		globals: true,
 		environment: 'jsdom',
     clearMocks: true,

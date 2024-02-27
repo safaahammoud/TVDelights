@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest';
 import { mount } from '@vue/test-utils';
 
-import StarRating from '@/components/StarRating.vue';
+import StarRating from '../src/components/StarRating.vue';
 
 describe('StarRating', () => {
   test('renders properly', () => {
